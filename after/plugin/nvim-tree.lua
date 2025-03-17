@@ -1,0 +1,49 @@
+-- require("nvim-tree").setup({
+--     disable_netrw = true,
+--     hijack_netrw = true,
+--     sort = {
+--         sorter = "case_sensitive",
+--     },
+--     view = {
+--         width = 30,
+--     },
+--     renderer = {
+--         group_empty = false,
+--     },
+--     filters = {
+--         dotfiles = false,
+--         git_clean = false,
+--         no_buffer = false,
+--         custom = {},
+--     },
+--     git = {
+--         enable = true,
+--         ignore = false,
+--         timeout = 500,
+--     },
+--     view = {
+--         preserve_window_proportions = false,
+--         adaptive_size = true,
+--     },
+--     actions = {
+--         open_file = {
+--             resize_window = true,
+--         },
+--     },
+--     update_focused_file = {
+--         enable = true,
+--         update_cwd = true,
+--     },
+--     sync_root_with_cwd = true
+-- })
+--
+-- vim.g.nvim_tree_highlight_opened_files = 1
+-- vim.g.nvim_tree_indent_markers = 1
+--
+-- vim.api.nvim_set_keymap('n', '<A-b>', '<cmd>NvimTreeFocus<CR>', { noremap = true })
+-- vim.api.nvim_set_keymap('v', '<A-b>', '<cmd>NvimTreeFocus<CR>', { noremap = true })
+--
+-- vim.api.nvim_set_keymap('n', '<A-n>', '<cmd>NvimTreeFindFile<CR>', { noremap = true })
+--
+-- vim.api.nvim_set_keymap('i', '<M-BS>', '<C-o>db', {noremap = true, silent = true})
+-- vim.api.nvim_set_keymap('i', '<M-Del>', '<C-o>dw', {noremap = true, silent = true})

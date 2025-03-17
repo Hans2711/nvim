@@ -1,0 +1,31 @@
+vim.g.mapleader = " "
+
+-- move files lines
+vim.keymap.set("n", "<A-j>", ":m .+1<CR>==") -- move line up(n)
+vim.keymap.set("n", "<A-k>", ":m .-2<CR>==") -- move line down(n)
+vim.keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv") -- move line up(v)
+vim.keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv") -- move line down(v)
+
+-- quit
+vim.keymap.set("n", "<C-q>", ":q<CR>")
+vim.keymap.set("n", "<C-Q>", vim.cmd.quit)
+
+vim.api.nvim_set_keymap('n', '<leader>r', '<cmd>lua vim.lsp.buf.references()<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '<leader>r', '<cmd>lua vim.lsp.buf.references()<CR>', { noremap = true, silent = true })
+
+vim.api.nvim_set_keymap('t', '<Esc>', '<C-\\><C-n>', {noremap = true})
+
+vim.api.nvim_set_keymap('n', '<C-g>', ':nohlsearch<CR>', { noremap = true, silent = true })
+
+vim.api.nvim_set_keymap('n', '<leader>a', ':q<CR>', { noremap = true, silent = true })
+
+vim.api.nvim_set_keymap('i', '<c-a>', 'copilot#accept("<cr>")', { silent = true, expr = true })
+vim.api.nvim_set_keymap('i', '<c-l>', 'copilot#next()', {  noremap = true, silent = true, expr = true })
+vim.api.nvim_set_keymap('i', '<c-h>', 'copilot#previous()', {  noremap = true, silent = true, expr = true })
+vim.api.nvim_set_keymap('i', '<c-j>', 'copilot#dismiss()', {  noremap = true, silent = true, expr = true })
+
+vim.api.nvim_set_keymap('n', '<leader>l', ':cnext<cr>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>h', ':cprevious<cr>', { noremap = true, silent = true })
+
+vim.keymap.set({'n', 'x', 'o'}, 's', '<cmd>HopWord<cr>', { noremap = true, silent = true })
+vim.keymap.set({'n', 'x', 'o'}, 'S', '<cmd>HopLine<cr>', { noremap = true, silent = true })
