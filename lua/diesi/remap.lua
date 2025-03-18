@@ -29,3 +29,7 @@ vim.api.nvim_set_keymap('n', '<leader>h', ':cprevious<cr>', { noremap = true, si
 
 vim.keymap.set({'n', 'x', 'o'}, 's', '<cmd>HopWord<cr>', { noremap = true, silent = true })
 vim.keymap.set({'n', 'x', 'o'}, 'S', '<cmd>HopLine<cr>', { noremap = true, silent = true })
+
+vim.keymap.set({'n', 'x', 'o'}, '<leader>gB', ':lua Snacks.gitbrowse()<cr>', { noremap = true, silent = true })
+vim.keymap.set({'n', 'x', 'o'}, '<leader>cH', ':lua Snacks.picker.command_history()<cr>', { noremap = true, silent = true })
+vim.keymap.set({'n', 'x', 'o'}, '<leader>b', ':lua Snacks.picker.buffers()<cr>', { noremap = true, silent = true })

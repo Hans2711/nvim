@@ -99,6 +99,16 @@ require('telescope').setup {
         --         ["<esc>"] = actions.close,
         --     },
         -- },
+        file_ignore_patterns = {
+            "node_modules",
+            ".git",
+            "public/fileadmin/user_upload",
+            "public/fileadmin/_processed_",
+            "public/fileadmin/_temp_",
+            "public/uploads",
+            "public/_assets/*",
+            "public/_assets",
+        },
         ripgrep_arguments = {
             'rg',
             '--hidden',
@@ -125,10 +135,6 @@ require('telescope').setup {
                 '!.git',
             }
         }
-    },
-    file_ignore_patterns = {
-        "node_modules",
-        ".git",
     },
     extensions = {
         recent_files = {
