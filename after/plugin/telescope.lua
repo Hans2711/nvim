@@ -102,12 +102,12 @@ require('telescope').setup {
         file_ignore_patterns = {
             "node_modules",
             ".git",
-            "public/fileadmin/user_upload",
-            "public/fileadmin/_processed_",
-            "public/fileadmin/_temp_",
-            "public/uploads",
-            "public/_assets/*",
-            "public/_assets",
+            -- "public/fileadmin/user_upload",
+            -- "public/fileadmin/_processed_",
+            -- "public/fileadmin/_temp_",
+            -- "public/uploads",
+            -- "public/_assets/*",
+            -- "public/_assets",
         },
         ripgrep_arguments = {
             'rg',
