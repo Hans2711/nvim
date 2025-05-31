@@ -22,6 +22,11 @@ lspconfig.rust_analyzer.setup {
   },
 }
 
+require'lspconfig'.ts_ls.setup{
+    cmd = { "typescript-language-server", "--stdio" },
+    filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
+}
+
 
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
