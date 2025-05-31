@@ -10,8 +10,6 @@ lspconfig.tailwindcss.setup {}
 
 -- lspconfig.phpactor.setup {}
 lspconfig.intelephense.setup {}
-
-lspconfig.intelephense.setup {}
 lspconfig.emmet_language_server.setup {}
 lspconfig.ast_grep.setup {}
 
