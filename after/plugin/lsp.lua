@@ -14,6 +14,7 @@ lspconfig.intelephense.setup {}
 lspconfig.intelephense.setup {}
 lspconfig.emmet_language_server.setup {}
 lspconfig.ast_grep.setup {}
+lspconfig.gopls.setup{}
 
 lspconfig.rust_analyzer.setup {
   -- Server-specific settings. See `:help lspconfig-setup`
