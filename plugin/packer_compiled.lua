@@ -126,7 +126,7 @@ _G.packer_plugins = {
     url = "https://github.com/github/copilot.vim"
   },
   ["dir-telescope.nvim"] = {
-    config = { "\27LJ\2\nc\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\3\vhidden\2\14no_ignore\1\17show_preview\2\nsetup\18dir-telescope\frequire\0" },
+    config = { "\27LJ\2\nc\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\3\17show_preview\2\vhidden\2\14no_ignore\1\nsetup\18dir-telescope\frequire\0" },
     loaded = true,
     path = "/home/diesi/.local/share/nvim/site/pack/packer/start/dir-telescope.nvim",
     url = "https://github.com/princejoogie/dir-telescope.nvim"
@@ -285,8 +285,12 @@ _G.packer_plugins = {
     url = "https://github.com/rose-pine/neovim"
   },
   ["snacks.nvim"] = {
-    loaded = true,
-    path = "/home/diesi/.local/share/nvim/site/pack/packer/start/snacks.nvim",
+    commands = { "Snacks" },
+    config = { "\27LJ\2\nÚ\4\0\0\b\0!\0&6\0\0\0006\2\1\0'\3\2\0B\0\3\3\15\0\0\0X\2\31€9\2\3\0015\4\31\0005\5\4\0005\6\6\0005\a\5\0=\a\a\0065\a\b\0=\a\t\0065\a\n\0=\a\v\0065\a\f\0=\a\r\0065\a\14\0=\a\15\0065\a\16\0=\a\17\0065\a\18\0=\a\19\0065\a\20\0=\a\21\0065\a\22\0=\a\23\0065\a\24\0=\a\25\0065\a\26\0=\a\27\0065\a\28\0=\a\29\6=\6\30\5=\5 \4B\2\2\1K\0\1\0\vconfig\1\0\1\vconfig\0\topts\nwords\1\0\1\fenabled\2\17statuscolumn\1\0\1\fenabled\2\vscroll\1\0\1\fenabled\2\nscope\1\0\1\fenabled\2\14quickfile\1\0\1\fenabled\2\vpicker\1\0\1\fenabled\2\rnotifier\1\0\2\fenabled\2\ftimeout\3¸\23\ninput\1\0\1\fenabled\2\vindent\1\0\1\fenabled\2\rexplorer\1\0\1\fenabled\2\14dashboard\1\0\1\fenabled\2\fbigfile\1\0\f\14quickfile\0\fbigfile\0\nscope\0\vscroll\0\vindent\0\14dashboard\0\vpicker\0\17statuscolumn\0\ninput\0\nwords\0\rexplorer\0\rnotifier\0\1\0\1\fenabled\2\1\0\3\tlazy\1\topts\0\rpriority\3è\a\nsetup\vsnacks\frequire\npcall\0" },
+    loaded = false,
+    needs_bufread = false,
+    only_cond = false,
+    path = "/home/diesi/.local/share/nvim/site/pack/packer/opt/snacks.nvim",
     url = "https://github.com/folke/snacks.nvim"
   },
   ["telescope-live-grep-args.nvim"] = {
@@ -353,30 +357,42 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
--- Config for: nvim-surround
-time([[Config for nvim-surround]], true)
-try_loadstring("\27LJ\2\n?\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\18nvim-surround\frequire\0", "config", "nvim-surround")
-time([[Config for nvim-surround]], false)
+-- Config for: avante.nvim
+time([[Config for avante.nvim]], true)
+try_loadstring("\27LJ\2\n-\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\18avante.config\frequire\0", "config", "avante.nvim")
+time([[Config for avante.nvim]], false)
 -- Config for: yazi.nvim
 time([[Config for yazi.nvim]], true)
 try_loadstring("\27LJ\2\n2\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\tyazi\frequire\0", "config", "yazi.nvim")
 time([[Config for yazi.nvim]], false)
+-- Config for: rose-pine
+time([[Config for rose-pine]], true)
+try_loadstring("\27LJ\2\n9\0\0\3\0\3\0\0056\0\0\0009\0\1\0'\2\2\0B\0\2\1K\0\1\0\26colorscheme rose-pine\bcmd\bvim\0", "config", "rose-pine")
+time([[Config for rose-pine]], false)
 -- Config for: hop.nvim
 time([[Config for hop.nvim]], true)
 try_loadstring("\27LJ\2\nU\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\1\tkeys\28etovxqpdygfblzhckisuran\nsetup\bhop\frequire\0", "config", "hop.nvim")
 time([[Config for hop.nvim]], false)
 -- Config for: dir-telescope.nvim
 time([[Config for dir-telescope.nvim]], true)
-try_loadstring("\27LJ\2\nc\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\3\vhidden\2\14no_ignore\1\17show_preview\2\nsetup\18dir-telescope\frequire\0", "config", "dir-telescope.nvim")
+try_loadstring("\27LJ\2\nc\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\3\17show_preview\2\vhidden\2\14no_ignore\1\nsetup\18dir-telescope\frequire\0", "config", "dir-telescope.nvim")
 time([[Config for dir-telescope.nvim]], false)
--- Config for: avante.nvim
-time([[Config for avante.nvim]], true)
-try_loadstring("\27LJ\2\n-\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\18avante.config\frequire\0", "config", "avante.nvim")
-time([[Config for avante.nvim]], false)
--- Config for: rose-pine
-time([[Config for rose-pine]], true)
-try_loadstring("\27LJ\2\n9\0\0\3\0\3\0\0056\0\0\0009\0\1\0'\2\2\0B\0\2\1K\0\1\0\26colorscheme rose-pine\bcmd\bvim\0", "config", "rose-pine")
-time([[Config for rose-pine]], false)
+-- Config for: nvim-surround
+time([[Config for nvim-surround]], true)
+try_loadstring("\27LJ\2\n?\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\18nvim-surround\frequire\0", "config", "nvim-surround")
+time([[Config for nvim-surround]], false)
+
+-- Command lazy-loads
+time([[Defining lazy-load commands]], true)
+pcall(vim.api.nvim_create_user_command, 'Snacks', function(cmdargs)
+          require('packer.load')({'snacks.nvim'}, { cmd = 'Snacks', l1 = cmdargs.line1, l2 = cmdargs.line2, bang = cmdargs.bang, args = cmdargs.args, mods = cmdargs.mods }, _G.packer_plugins)
+        end,
+        {nargs = '*', range = true, bang = true, complete = function()
+          require('packer.load')({'snacks.nvim'}, {}, _G.packer_plugins)
+          return vim.fn.getcompletion('Snacks ', 'cmdline')
+      end})
+time([[Defining lazy-load commands]], false)
+
 
 _G._packer.inside_compile = false
 if _G._packer.needs_bufread == true then
