@@ -27,7 +27,7 @@ This repository contains my personal **Neovim** configuration powered by `packer
 - **hlargs** highlighting function arguments.
 - **agrolens.nvim** for navigating functions.
 - **nvim-macros** storing macros in `macros.json`.
-- **nvim-emmet** wrapper around Emmet.
+- **nvim-emmet** wrapper around Emmet with Blade template support.
 - **CHADTree** and **nvim-tree** file browsers (optional).
 - **Yazi** file manager integration with key mappings to toggle.
 - **grug-far.nvim** for project wide search and replace.
@@ -70,6 +70,7 @@ Below is an overview of the custom shortcuts defined throughout this configurati
   - `-` toggles the file manager and `_` opens it in the current path.
 - **Emmet**
   - `leader+e` wraps the current selection with an abbreviation.
+  - Works in `*.blade.php` templates.
 - **Git and Undo**
   - `leader+gs` opens **Fugitive** and `leader+u` toggles **UndoTree**.
 - **Debugging (DAP)**
