@@ -2,6 +2,12 @@
 
 local dap = require('dap')
 local uv  = vim.loop                -- libuv bindings inside Neovim
+local widgets     = require('dap.ui.widgets')
+local var_sidebar = widgets.sidebar(
+  widgets.scopes,
+  {},               -- opts (width/height only)
+  'vertical botright split'     -- ← open-command: right-most vsplit
+)
 
 dap.adapters.php = {
   type    = 'executable',
@@ -131,7 +137,6 @@ vim.keymap.set('n', '<Leader>ds', function()
   { desc = 'DAP: stack frames', noremap = true, silent = true })
 
 vim.keymap.set('n', '<Leader>dv', function()
-    local w = require('dap.ui.widgets')
-    w.centered_float(w.scopes)
+    var_sidebar.toggle()          -- opens if closed, closes if open
   end,
-  { desc = 'DAP: variable scopes', noremap = true, silent = true })
+  { desc = 'DAP: variables sidebar', noremap = true, silent = true })
