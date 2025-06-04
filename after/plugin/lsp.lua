@@ -10,7 +10,15 @@ lspconfig.tailwindcss.setup {}
 
 -- lspconfig.phpactor.setup {}
 lspconfig.intelephense.setup {}
-lspconfig.emmet_language_server.setup {}
+lspconfig.emmet_language_server.setup {
+  filetypes = {
+    'html',
+    'css',
+    'blade',
+    'typescriptreact',
+    'javascriptreact',
+  },
+}
 lspconfig.ast_grep.setup {}
 lspconfig.gopls.setup{}
 
