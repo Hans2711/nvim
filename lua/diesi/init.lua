@@ -2,6 +2,7 @@ require('diesi.remap')
 require('diesi.commands')
 require('diesi.clipboard')
 require('diesi.folds')
+require('diesi.typoscript')
 
 vim.opt.number = true
 vim.wo.relativenumber = true

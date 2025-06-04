@@ -182,4 +182,11 @@ return require('packer').startup(function(use)
             require('avante.config')
         end,
     }
+
+    use {
+        'numToStr/Comment.nvim',
+        config = function()
+            require('Comment').setup()
+        end
+    }
 end)
