@@ -1,0 +1,1 @@
+-- Using default configuration for precognition.nvim

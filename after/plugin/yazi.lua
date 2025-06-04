@@ -1,5 +1,7 @@
+-- '-' toggles the floating Yazi file manager
 vim.keymap.set("n", "-", ":Yazi toggle<CR>", { noremap = true, silent = true })
 
+-- '_' opens Yazi in the current directory
 vim.keymap.set("n", "_", ":Yazi<CR>", { noremap = true, silent = true })
 
 -- vim.g.loaded_netrwPlugin = 1
