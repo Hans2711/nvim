@@ -22,9 +22,9 @@ local live_grep_args_shortcuts = require("telescope-live-grep-args.shortcuts")
 vim.keymap.set({"v", "n"}, "<leader>fs", live_grep_args_shortcuts.grep_visual_selection)
 vim.keymap.set({"v", "n"}, "<leader>fw", live_grep_args_shortcuts.grep_word_under_cursor)
 
-vim.api.nvim_set_keymap("n", "<Leader>fr",
-    [[<cmd>lua require('telescope').extensions.recent_files.pick()<CR>]],
-    {noremap = true, silent = true})
+vim.keymap.set("n", "<leader>fr", function()
+    require('diesi.recent').open()
+end, { noremap = true, silent = true })
 
 vim.keymap.set("n", "<leader>fof", ":Telescope agrolens query=functions<CR>")
 vim.keymap.set("n", "<leader>faf", ":Telescope agrolens query=functions buffers=all<CR>")
@@ -137,9 +137,6 @@ require('telescope').setup {
         }
     },
     extensions = {
-        recent_files = {
-            only_cwd = true,
-        },
         agrolens = {
             debug = false,
             same_type = true,
@@ -149,8 +146,6 @@ require('telescope').setup {
         }
     }
 }
-
-require("telescope").load_extension("recent_files")
 require("telescope").load_extension("dap")
 require("telescope").load_extension("live_grep_args")
 require("telescope").load_extension("refactoring")
