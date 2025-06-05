@@ -64,7 +64,7 @@ Below is an overview of the custom shortcuts defined throughout this configurati
   - `leader+fd` search files in a chosen directory and `leader+fc` grep for a string.
   - `leader+fe` resume last picker and `leader+fif` run live grep with args.
   - `leader+fs` search visual selection and `leader+fw` search the word under cursor.
-  - `leader+fr` recent files, `leader+fof` function search and `leader+faf` search functions in all buffers.
+  - `leader+fr` open recent files ordered by last usage, `leader+fof` function search and `leader+faf` search functions in all buffers.
   - `leader+ss` pick a search directory and `leader+sg` grep inside it.
 - **Yazi**
   - `-` toggles the file manager and `_` opens it in the current path.

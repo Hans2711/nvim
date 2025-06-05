@@ -38,7 +38,6 @@ return require('packer').startup(function(use)
     }
     use({"ray-x/web-tools.nvim"})
 
-    use({"smartpde/telescope-recent-files"})
 
     use ({"nvim-tree/nvim-web-devicons"})
     use ({"lewis6991/gitsigns.nvim"})
