@@ -188,4 +188,19 @@ return require('packer').startup(function(use)
             require('Comment').setup()
         end
     }
+
+    use {
+        'greggh/laravel-helper.nvim',
+        requires = {
+            -- Enhanced command interface
+            'ColinKennedy/mega.cmdparse',  -- Optional but recommended
+            'ColinKennedy/mega.logging',   -- Required by mega.cmdparse
+
+            -- Core dependencies
+            'MunifTanjim/nui.nvim',
+        },
+        config = function()
+            require('laravel-helper').setup()
+        end
+    }
 end)
