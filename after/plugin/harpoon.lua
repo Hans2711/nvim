@@ -3,6 +3,13 @@ local ui = require("harpoon.ui")
 local term = require("harpoon.term")
 local cmdUi = require("harpoon.cmd-ui")
 
+require("harpoon").setup({
+    menu = {
+        width = vim.api.nvim_win_get_width(0) - 4,
+        height = vim.api.nvim_win_get_height(0) - 4,
+    }
+})
+
 vim.keymap.set("n", "<leader>a", mark.add_file)
 vim.keymap.set("n", "<C-b>", ui.toggle_quick_menu)
 

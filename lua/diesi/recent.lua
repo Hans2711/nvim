@@ -1,13 +1,25 @@
 local M = {}
 
-local data_path = vim.fn.stdpath('data') .. '/recent_files.json'
+-- determine a project-scoped data path
+local function get_data_path()
+  -- use the current working directory as the project root
+  local root = vim.fn.getcwd()
+  -- take the last segment of the path as the project name
+  local project = vim.fn.fnamemodify(root, ':t')
+  -- build a directory under stdpath('data')/recent_files/<project>/
+  local base = vim.fn.stdpath('data') .. '/recent_files/' .. project
+  -- ensure it exists
+  vim.fn.mkdir(base, 'p')
+  -- file name inside that directory
+  return base .. '/recent_files.json'
+end
+
 local max_items = 100
 
 local function load()
-  local f = io.open(data_path, 'r')
-  if not f then
-    return {}
-  end
+  local path = get_data_path()
+  local f = io.open(path, 'r')
+  if not f then return {} end
   local ok, decoded = pcall(vim.fn.json_decode, f:read('*a'))
   f:close()
   if ok and type(decoded) == 'table' then
@@ -17,10 +29,9 @@ local function load()
 end
 
 local function save(list)
-  local f = io.open(data_path, 'w')
-  if not f then
-    return
-  end
+  local path = get_data_path()
+  local f = io.open(path, 'w')
+  if not f then return end
   f:write(vim.fn.json_encode(list))
   f:close()
 end
@@ -34,8 +45,9 @@ function M.update(filepath)
       break
     end
   end
+  -- add to front
   table.insert(list, 1, { file = filepath, time = os.time() })
-  -- trim list
+  -- trim
   while #list > max_items do
     table.remove(list)
   end
@@ -60,10 +72,10 @@ function M.open()
   local action_state = require('telescope.actions.state')
 
   pickers.new({}, {
-    prompt_title = 'Recent Files',
+    prompt_title = 'Recent Files (project)',
     finder = finders.new_table({ results = results }),
     sorter = conf.generic_sorter({}),
-    attach_mappings = function(prompt_bufnr, _)
+    attach_mappings = function(prompt_bufnr)
       actions.select_default:replace(function()
         local selection = action_state.get_selected_entry()
         actions.close(prompt_bufnr)
