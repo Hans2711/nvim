@@ -4,23 +4,218 @@ vim.keymap.set("n", "-", ":Yazi toggle<CR>", { noremap = true, silent = true })
 -- '_' opens Yazi in the current directory
 vim.keymap.set("n", "_", ":Yazi<CR>", { noremap = true, silent = true })
 
--- vim.g.loaded_netrwPlugin = 1
+-- Store yazi's current directory, updated via hover events
+_G.yazi_current_cwd = vim.fn.getcwd()
+
+local function debug_inspect(prefix, value)
+    local ok, inspected = pcall(vim.inspect, value)
+    if not ok then
+        inspected = '<uninspectable>'
+    end
+    vim.notify(string.format('[Yazi] %s %s', prefix, inspected), vim.log.levels.DEBUG)
+end
+
+local function resolve_path_like(value)
+    if not value then
+        return nil
+    end
+
+    if type(value) == "string" then
+        if value:match("^file://") then
+            local ok, decoded = pcall(vim.uri_to_fname, value)
+            if ok then
+                return decoded
+            end
+        end
+        return value
+    end
+
+    local candidate
+
+    local method_names = { "path", "absolute", "as_string", "get" }
+    for _, name in ipairs(method_names) do
+        local ok, result = pcall(function()
+            local method = value[name]
+            if type(method) == "function" then
+                return method(value)
+            end
+        end)
+        if ok and type(result) == "string" and result ~= "" then
+            candidate = result
+            break
+        end
+    end
+
+    if not candidate and type(value) == "table" then
+        local field_names = { "path", "_path", "dir", "directory", "url" }
+        for _, field in ipairs(field_names) do
+            local field_value = value[field]
+            if type(field_value) == "string" and field_value ~= "" then
+                candidate = field_value
+                break
+            end
+        end
+    end
+
+    if not candidate then
+        local ok, stringified = pcall(tostring, value)
+        if ok and type(stringified) == "string" and stringified ~= "" then
+            local extracted = stringified:match('"([^"\n]+)"')
+            if extracted and extracted ~= "" then
+                candidate = extracted
+            elseif stringified:match("^/") then
+                candidate = stringified
+            end
+        end
+    end
+
+    return candidate
+end
+
+local function normalize_directory(path_like)
+    local resolved = resolve_path_like(path_like)
+    if not resolved or resolved == "" then
+        return nil
+    end
+
+    local expanded = vim.fs.normalize(resolved)
+    if vim.fn.isdirectory(expanded) == 1 then
+        return expanded
+    end
+
+    return vim.fn.fnamemodify(expanded, ':h')
+end
+
+local function set_tracked_directory(dir, source)
+    if not dir or dir == "" then
+        return nil
+    end
+
+    if _G.yazi_current_cwd ~= dir then
+        _G.yazi_current_cwd = dir
+        if source then
+            vim.notify(string.format('[Yazi] Tracking directory (%s) %s', source, dir), vim.log.levels.DEBUG)
+        else
+            vim.notify('[Yazi] Tracking directory '..dir, vim.log.levels.DEBUG)
+        end
+    elseif source then
+        vim.notify(string.format('[Yazi] Tracking directory unchanged (%s) %s', source, dir), vim.log.levels.DEBUG)
+    end
+
+    return dir
+end
+
+local function update_tracked_directory(path_like, source)
+    local dir = normalize_directory(path_like)
+    if dir and dir ~= "" then
+        return set_tracked_directory(dir, source)
+    end
+    return nil
+end
+
+-- Listen to hover events to track the current directory in yazi
+vim.api.nvim_create_autocmd('User', {
+    pattern = 'YaziDDSHover',
+    callback = function(event)
+        if event.data and event.data.url then
+            update_tracked_directory(event.data.url, 'hover')
+        end
+    end,
+})
 
 require("yazi").setup({
-    open_for_directories = false, -- set to true if you prefer yazi over netrw
+    open_for_directories = true,
     keymaps = {
         show_help = "<f2>",
-        open_file_in_vertical_split = "<C-v>",
-        open_file_in_horizontal_split = "<C-x>",
-        open_file_in_tab = "<C-t>",
-        grep_in_directory = "<C-s>",
-        replace_in_directory = "<C-g>",
+        open_file_in_vertical_split = "<c-v>",
+        open_file_in_horizontal_split = "<c-x>",
+        open_file_in_tab = "<c-t>",
+        grep_in_directory = "<c-s>",
+        replace_in_directory = "<c-g>",
         cycle_open_buffers = "<tab>",
-        copy_relative_path_to_selected_files = "<C-y>",
-        send_to_quickfix_list = "<C-q>",
-        change_working_directory = "<C-\\>",
+        copy_relative_path_to_selected_files = "<c-y>",
+        send_to_quickfix_list = "<c-q>",
+        change_working_directory = "<c-\\>",
     },
     floating_window_scaling_factor = 1,
+    hooks = {
+        yazi_opened = function(preselected_path, yazi_buffer_id, config)
+            -- Initialize with the directory of the preselected file, or current buffer's directory
+            local init_dir
+            if preselected_path then
+                local path_str = tostring(preselected_path)
+                if vim.fn.isdirectory(path_str) == 1 then
+                    init_dir = path_str
+                else
+                    init_dir = vim.fn.fnamemodify(path_str, ':h')
+                end
+            else
+                init_dir = vim.fn.expand('%:p:h')
+            end
+            update_tracked_directory(init_dir, 'opened')
+        end,
+    },
+    integrations = {
+        grep_in_directory = function(directory)
+            debug_inspect('grep_in_directory argument', directory)
+
+            local dir = _G.yazi_current_cwd
+            if not dir or dir == "" then
+                dir = update_tracked_directory(directory, 'integration:grep-arg')
+            end
+
+            if not dir or dir == "" then
+                local loop_cwd = vim.loop.cwd()
+                dir = normalize_directory(loop_cwd) or loop_cwd or vim.fn.getcwd()
+                set_tracked_directory(dir, 'integration:grep-fallback')
+            end
+
+            vim.notify('[Yazi] grep_in_directory using '..dir, vim.log.levels.DEBUG)
+            local ok, fzf = pcall(require, 'fzf-lua')
+            if not ok then
+                vim.notify('fzf-lua is not available: '..tostring(fzf), vim.log.levels.ERROR)
+                return
+            end
+
+            vim.schedule(function()
+                vim.notify('[Yazi] Launching fzf-lua live_grep in '..dir, vim.log.levels.DEBUG)
+                fzf.live_grep({ cwd = dir })
+
+                vim.schedule(function()
+                    vim.notify('[Yazi] Entering insert mode for fzf prompt', vim.log.levels.DEBUG)
+                    vim.cmd('startinsert')
+                end)
+            end)
+        end,
+        replace_in_directory = function(directory)
+            debug_inspect('replace_in_directory argument', directory)
+
+            local dir = _G.yazi_current_cwd
+            if not dir or dir == "" then
+                dir = update_tracked_directory(directory, 'integration:replace-arg')
+            end
+
+            if not dir or dir == "" then
+                local loop_cwd = vim.loop.cwd()
+                dir = normalize_directory(loop_cwd) or loop_cwd or vim.fn.getcwd()
+                set_tracked_directory(dir, 'integration:replace-fallback')
+            end
+
+            vim.schedule(function()
+                vim.notify('[Yazi] replace_in_directory using '..dir, vim.log.levels.DEBUG)
+                local ok, grug = pcall(require, "grug-far")
+                if not ok then
+                    vim.notify('grug-far is not available: '..tostring(grug), vim.log.levels.ERROR)
+                    return
+                end
+                grug.open({
+                    prefills = {
+                        paths = dir,
+                    }
+                })
+            end)
+        end,
+    },
 })
 
 
