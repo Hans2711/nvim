@@ -1,16 +1,34 @@
--- Setup language servers.
-local lspconfig = require('lspconfig')
-lspconfig.pyright.setup {}
--- lspconfig.tsserver.setup {}
-lspconfig.cssmodules_ls.setup {}
-lspconfig.docker_compose_language_service.setup {}
-lspconfig.html.setup {}
-lspconfig.jsonls.setup {}
-lspconfig.tailwindcss.setup {}
+-- Setup language servers
 
--- lspconfig.phpactor.setup {}
-lspconfig.intelephense.setup {}
-lspconfig.emmet_language_server.setup {
+-- Augment client capabilities (e.g. for nvim-cmp)
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+local ok_cmp, cmp_lsp = pcall(require, 'cmp_nvim_lsp')
+if ok_cmp then
+  capabilities = cmp_lsp.default_capabilities(capabilities)
+end
+
+local function setup_lsp(name, config)
+  config = config or {}
+  config.capabilities = capabilities
+  vim.lsp.config(name, config)
+  vim.lsp.enable(name)
+end
+
+-- Basic servers with default configurations using the new vim.lsp.config API
+setup_lsp('pyright')
+-- setup_lsp('tsserver')  -- commented out as using ts_ls instead
+setup_lsp('cssmodules_ls')
+setup_lsp('docker_compose_language_service')
+setup_lsp('html')
+setup_lsp('jsonls')
+setup_lsp('tailwindcss')
+
+-- PHP LSP (Intelephense)
+-- setup_lsp('phpactor')  -- commented out as using intelephense instead
+setup_lsp('intelephense')
+
+-- Emmet language server with custom filetypes
+setup_lsp('emmet_language_server', {
   filetypes = {
     'html',
     'css',
@@ -18,21 +36,23 @@ lspconfig.emmet_language_server.setup {
     'typescriptreact',
     'javascriptreact',
   },
-}
-lspconfig.ast_grep.setup {}
-lspconfig.gopls.setup{}
+})
 
-lspconfig.rust_analyzer.setup {
-  -- Server-specific settings. See `:help lspconfig-setup`
+setup_lsp('ast_grep')
+setup_lsp('gopls')
+
+-- Rust analyzer with custom settings
+setup_lsp('rust_analyzer', {
   settings = {
     ['rust-analyzer'] = {},
   },
-}
+})
 
-require'lspconfig'.ts_ls.setup{
-    cmd = { "typescript-language-server", "--stdio" },
-    filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
-}
+-- TypeScript language server with custom command and filetypes
+setup_lsp('ts_ls', {
+  cmd = { "typescript-language-server", "--stdio" },
+  filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
+})
 
 
 -- Global mappings.
@@ -71,4 +91,3 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end, opts)
   end,
 })
-

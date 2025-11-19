@@ -107,8 +107,6 @@ return require('packer').startup(function(use)
 
     use({"olrtg/nvim-emmet"})
 
-    use({"ms-jpq/chadtree"})
-
     use({"nvim-tree/nvim-tree.lua"})
 
     use({
@@ -169,6 +167,7 @@ return require('packer').startup(function(use)
     use 'stevearc/dressing.nvim'
     use 'MeanderingProgrammer/render-markdown.nvim'
     use 'MunifTanjim/nui.nvim'
+    use 'ibhagwan/fzf-lua'
 
     use {
         'yetone/avante.nvim',

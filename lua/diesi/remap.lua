@@ -45,3 +45,12 @@ vim.keymap.set('n', '<M-l>', ':vertical resize +3<CR>', opts) -- grow  to the ri
 
 vim.g.copilot_no_tab_map = true
 vim.api.nvim_set_keymap("i", "<C-a>", "<Plug>(copilot-accept-word)", { noremap = false, silent = true })
+
+vim.keymap.set('n', '<leader>vc', function()
+  local file = vim.fn.expand('%:p')
+  if file == '' then
+    print('No file associated with this buffer')
+  else
+    vim.fn.jobstart({ 'code', file }, { detach = true })
+  end
+end, { noremap = true, silent = true })

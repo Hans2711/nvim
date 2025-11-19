@@ -35,6 +35,7 @@ avante.setup({
         minimize_diff = true,
         enable_token_counting = true,
         enable_cursor_planning_mode = false,
+        use_cwd_as_project_root = true
     },
 
     mappings = {
