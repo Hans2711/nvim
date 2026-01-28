@@ -33,7 +33,6 @@ vim.keymap.set({'n', 'x', 'o'}, 'S', '<cmd>HopLine<cr>', { noremap = true, silen
 vim.keymap.set({'n', 'x', 'o'}, '<leader>gB', ':lua Snacks.gitbrowse()<cr>', { noremap = true, silent = true })
 vim.keymap.set({'n', 'x', 'o'}, '<leader>cH', ':lua Snacks.picker.command_history()<cr>', { noremap = true, silent = true })
 vim.keymap.set({'n', 'x', 'o'}, '<leader>b', function()
-    require('packer').loader('snacks.nvim')
     require('snacks').picker.buffers()
 end, { noremap = true, silent = true })
 
