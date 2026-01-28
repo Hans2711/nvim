@@ -8,11 +8,12 @@ vim.keymap.set("n", "_", ":Yazi<CR>", { noremap = true, silent = true })
 _G.yazi_current_cwd = vim.fn.getcwd()
 
 local function debug_inspect(prefix, value)
-    local ok, inspected = pcall(vim.inspect, value)
-    if not ok then
-        inspected = '<uninspectable>'
-    end
-    vim.notify(string.format('[Yazi] %s %s', prefix, inspected), vim.log.levels.DEBUG)
+    -- Debug notifications disabled
+    -- local ok, inspected = pcall(vim.inspect, value)
+    -- if not ok then
+    --     inspected = '<uninspectable>'
+    -- end
+    -- vim.notify(string.format('[Yazi] %s %s', prefix, inspected), vim.log.levels.DEBUG)
 end
 
 local function resolve_path_like(value)
@@ -93,13 +94,14 @@ local function set_tracked_directory(dir, source)
 
     if _G.yazi_current_cwd ~= dir then
         _G.yazi_current_cwd = dir
-        if source then
-            vim.notify(string.format('[Yazi] Tracking directory (%s) %s', source, dir), vim.log.levels.DEBUG)
-        else
-            vim.notify('[Yazi] Tracking directory '..dir, vim.log.levels.DEBUG)
-        end
-    elseif source then
-        vim.notify(string.format('[Yazi] Tracking directory unchanged (%s) %s', source, dir), vim.log.levels.DEBUG)
+        -- Debug notifications disabled
+        -- if source then
+        --     vim.notify(string.format('[Yazi] Tracking directory (%s) %s', source, dir), vim.log.levels.DEBUG)
+        -- else
+        --     vim.notify('[Yazi] Tracking directory '..dir, vim.log.levels.DEBUG)
+        -- end
+    -- elseif source then
+    --     vim.notify(string.format('[Yazi] Tracking directory unchanged (%s) %s', source, dir), vim.log.levels.DEBUG)
     end
 
     return dir
@@ -170,7 +172,7 @@ require("yazi").setup({
                 set_tracked_directory(dir, 'integration:grep-fallback')
             end
 
-            vim.notify('[Yazi] grep_in_directory using '..dir, vim.log.levels.DEBUG)
+            -- vim.notify('[Yazi] grep_in_directory using '..dir, vim.log.levels.DEBUG)
             local ok, fzf = pcall(require, 'fzf-lua')
             if not ok then
                 vim.notify('fzf-lua is not available: '..tostring(fzf), vim.log.levels.ERROR)
@@ -178,11 +180,11 @@ require("yazi").setup({
             end
 
             vim.schedule(function()
-                vim.notify('[Yazi] Launching fzf-lua live_grep in '..dir, vim.log.levels.DEBUG)
+                -- vim.notify('[Yazi] Launching fzf-lua live_grep in '..dir, vim.log.levels.DEBUG)
                 fzf.live_grep({ cwd = dir })
 
                 vim.schedule(function()
-                    vim.notify('[Yazi] Entering insert mode for fzf prompt', vim.log.levels.DEBUG)
+                    -- vim.notify('[Yazi] Entering insert mode for fzf prompt', vim.log.levels.DEBUG)
                     vim.cmd('startinsert')
                 end)
             end)
@@ -202,7 +204,7 @@ require("yazi").setup({
             end
 
             vim.schedule(function()
-                vim.notify('[Yazi] replace_in_directory using '..dir, vim.log.levels.DEBUG)
+                -- vim.notify('[Yazi] replace_in_directory using '..dir, vim.log.levels.DEBUG)
                 local ok, grug = pcall(require, "grug-far")
                 if not ok then
                     vim.notify('grug-far is not available: '..tostring(grug), vim.log.levels.ERROR)

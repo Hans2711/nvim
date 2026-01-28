@@ -54,3 +54,14 @@ vim.keymap.set('n', '<leader>vc', function()
     vim.fn.jobstart({ 'code', file }, { detach = true })
   end
 end, { noremap = true, silent = true })
+
+-- Copy current buffer's absolute path to clipboard
+vim.keymap.set('n', '<leader>yp', function()
+  local file = vim.fn.expand('%:p')
+  if file == '' then
+    print('No file associated with this buffer')
+  else
+    vim.fn.setreg('+', file)
+    print('Copied: ' .. file)
+  end
+end, { noremap = true, silent = true, desc = 'Yank (copy) buffer path' })

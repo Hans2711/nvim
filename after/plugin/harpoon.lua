@@ -51,8 +51,3 @@ vim.keymap.set("n", "<leader>cind", function()
     term.gotoTerminal(1) 
     term.sendCommand(1, "ddev composer install --no-dev\n") 
 end)
-
-vim.keymap.set("n", "<leader>cc", function() 
-    term.gotoTerminal(1) 
-    term.sendCommand(1, "ddev exec \"TYPO3_CONTEXT=Development ./vendor/bin/typo3 cache:flush\"\n") 
-end)
