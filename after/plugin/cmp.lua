@@ -24,10 +24,10 @@ cmp.setup({
     }),
     event = { "InsertEnter", "LspAttach" },
     sources = cmp.config.sources({
-        { name = 'vsnip' }, -- For vsnip users.
+        { name = 'luasnip' }, -- For luasnip users.
         { name = "nvim_lsp", group_index = 2 },
         { name = 'buffer', group_index = 4 },
-        -- { name = 'luasnip' }, -- For luasnip users.
+        -- { name = 'vsnip' }, -- For vsnip users.
         -- { name = 'ultisnips' }, -- For ultisnips users.
         -- { name = 'snippy' }, -- For snippy users.
     }, {

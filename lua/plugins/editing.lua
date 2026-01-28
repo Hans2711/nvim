@@ -1,16 +1,11 @@
 -- Text editing enhancement plugins
 return {
-  -- Comment plugin (new)
+  -- Comment plugin
   {
     "numToStr/Comment.nvim",
     config = function()
       require("Comment").setup()
     end,
-  },
-  
-  -- Comment plugin (old, kept for compatibility)
-  {
-    "terrortylor/nvim-comment",
   },
   
   -- Surround text objects
