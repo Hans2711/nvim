@@ -17,8 +17,6 @@ vim.api.nvim_set_keymap('t', '<Esc>', '<C-\\><C-n>', {noremap = true})
 
 vim.api.nvim_set_keymap('n', '<C-g>', ':nohlsearch<CR>', { noremap = true, silent = true })
 
-vim.api.nvim_set_keymap('n', '<leader>a', ':q<CR>', { noremap = true, silent = true })
-
 vim.api.nvim_set_keymap('i', '<c-a>', 'copilot#accept("<cr>")', { silent = true, expr = true })
 vim.api.nvim_set_keymap('i', '<c-l>', 'copilot#next()', {  noremap = true, silent = true, expr = true })
 vim.api.nvim_set_keymap('i', '<c-h>', 'copilot#previous()', {  noremap = true, silent = true, expr = true })
@@ -36,11 +34,15 @@ vim.keymap.set({'n', 'x', 'o'}, '<leader>b', function()
     require('snacks').picker.buffers()
 end, { noremap = true, silent = true })
 
+vim.keymap.set('n', '<leader>fr', function()
+    require('diesi.recent').open()
+end, { noremap = true, silent = true, desc = 'Recent files (directory)' })
+
 local opts = { noremap = true, silent = true }
 
 -- horizontal (width) changes
-vim.keymap.set('n', '<M-h>', ':vertical resize +3<CR>', opts) -- shrink to the left
-vim.keymap.set('n', '<M-l>', ':vertical resize -3<CR>', opts) -- grow  to the right
+vim.keymap.set('n', '<M-h>', ':vertical resize -3<CR>', opts) -- shrink to the left
+vim.keymap.set('n', '<M-l>', ':vertical resize +3<CR>', opts) -- grow  to the right
 
 vim.g.copilot_no_tab_map = true
 vim.api.nvim_set_keymap("i", "<C-a>", "<Plug>(copilot-accept-word)", { noremap = false, silent = true })
@@ -64,3 +66,13 @@ vim.keymap.set('n', '<leader>yp', function()
     print('Copied: ' .. file)
   end
 end, { noremap = true, silent = true, desc = 'Yank (copy) buffer path' })
+
+-- Trouble.nvim keymaps (diagnostics and navigation)
+-- Note: Plugin lazy-loads on these keys, so they're defined in lua/plugins/ui.lua
+-- These are documented here for reference:
+-- <leader>xx - Toggle diagnostics (workspace)
+-- <leader>xb - Toggle buffer diagnostics
+-- <leader>xs - Toggle document symbols
+-- <leader>xd - Toggle LSP definitions/references/implementations
+-- <leader>xL - Toggle location list
+-- <leader>xq - Toggle quickfix list

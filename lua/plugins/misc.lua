@@ -34,7 +34,17 @@ return {
         enabled = true,
         timeout = 3000,
       },
-      picker = { enabled = true },
+      picker = { 
+        enabled = true,
+        win = {
+          input = {
+            keys = {
+              ["<A-j>"] = { "list_down", mode = { "i", "n" } },
+              ["<A-k>"] = { "list_up", mode = { "i", "n" } },
+            }
+          }
+        }
+      },
       quickfile = { enabled = true },
       scope = { enabled = true },
       scroll = { enabled = true },

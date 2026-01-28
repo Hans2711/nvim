@@ -30,4 +30,31 @@ M.fuzzy_filter = function()
   })
 end
 
+-- Function to grep in current oil directory
+M.grep_in_directory = function()
+  local oil = require("oil")
+  local fzf = require("fzf-lua")
+  
+  -- Get the current directory from oil
+  local current_dir = oil.get_current_dir()
+  
+  if not current_dir then
+    vim.notify("Not in an oil buffer", vim.log.levels.WARN)
+    return
+  end
+  
+  -- Normalize the path
+  current_dir = vim.fn.fnamemodify(current_dir, ":p")
+  
+  -- Open fzf-lua live_grep in the current directory
+  fzf.live_grep({
+    cwd = current_dir,
+    prompt = "Grep> ",
+    winopts = {
+      title = " " .. vim.fn.fnamemodify(current_dir, ":~") .. " ",
+      title_pos = "center",
+    },
+  })
+end
+
 return M

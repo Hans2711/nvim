@@ -4,10 +4,12 @@ local M = {}
 local function get_data_path()
   -- use the current working directory as the project root
   local root = vim.fn.getcwd()
-  -- take the last segment of the path as the project name
+  -- create a hash of the full path for uniqueness
+  local hash = vim.fn.sha256(root):sub(1, 16)
+  -- keep the project name for readability
   local project = vim.fn.fnamemodify(root, ':t')
-  -- build a directory under stdpath('data')/recent_files/<project>/
-  local base = vim.fn.stdpath('data') .. '/recent_files/' .. project
+  -- build a directory under stdpath('data')/recent_files/<hash>_<project>/
+  local base = vim.fn.stdpath('data') .. '/recent_files/' .. hash .. '_' .. project
   -- ensure it exists
   vim.fn.mkdir(base, 'p')
   -- file name inside that directory
@@ -56,36 +58,60 @@ end
 
 function M.open()
   local list = load()
-  table.sort(list, function(a, b)
+  local cwd = vim.fn.getcwd()
+  
+  -- Filter to only show files under current working directory (strict match)
+  local filtered = {}
+  for _, item in ipairs(list) do
+    if vim.startswith(item.file, cwd .. '/') or item.file == cwd then
+      table.insert(filtered, item)
+    end
+  end
+  
+  -- Sort by time
+  table.sort(filtered, function(a, b)
     return (a.time or 0) > (b.time or 0)
   end)
 
+  -- Prepare results with relative paths for display
+  local cwd_display = cwd .. '/'
   local results = {}
-  for _, item in ipairs(list) do
-    table.insert(results, item.file)
+  for _, item in ipairs(filtered) do
+    -- Convert to relative path if under cwd
+    local display_path = item.file
+    if vim.startswith(item.file, cwd_display) then
+      display_path = item.file:sub(#cwd_display + 1)
+    end
+    table.insert(results, display_path)
   end
 
-  local pickers = require('telescope.pickers')
-  local finders = require('telescope.finders')
-  local conf = require('telescope.config').values
-  local actions = require('telescope.actions')
-  local action_state = require('telescope.actions.state')
-
-  pickers.new({}, {
-    prompt_title = 'Recent Files (project)',
-    finder = finders.new_table({ results = results }),
-    sorter = conf.generic_sorter({}),
-    attach_mappings = function(prompt_bufnr)
-      actions.select_default:replace(function()
-        local selection = action_state.get_selected_entry()
-        actions.close(prompt_bufnr)
-        if selection and selection[1] then
-          vim.cmd('edit ' .. vim.fn.fnameescape(selection[1]))
+  -- Use fzf-lua picker with preview
+  require('fzf-lua').fzf_exec(results, {
+    prompt = 'Recent Files (directory)> ',
+    cwd = cwd,
+    actions = {
+      ['default'] = function(selected)
+        if selected and selected[1] then
+          -- Reconstruct absolute path if needed
+          local file = selected[1]
+          if not vim.startswith(file, '/') then
+            file = cwd .. '/' .. file
+          end
+          vim.cmd('edit ' .. vim.fn.fnameescape(file))
         end
-      end)
-      return true
-    end,
-  }):find()
+      end
+    },
+    winopts = {
+      title = ' Recent Files (directory) ',
+      title_pos = 'center',
+      preview = {
+        default = 'bat',
+        layout = 'horizontal',
+        vertical = 'down:50%',
+      },
+    },
+    previewer = 'builtin',
+  })
 end
 
 function M.setup()
