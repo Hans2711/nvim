@@ -39,8 +39,8 @@ end, { noremap = true, silent = true })
 local opts = { noremap = true, silent = true }
 
 -- horizontal (width) changes
-vim.keymap.set('n', '<M-h>', ':vertical resize -3<CR>', opts) -- shrink to the left
-vim.keymap.set('n', '<M-l>', ':vertical resize +3<CR>', opts) -- grow  to the right
+vim.keymap.set('n', '<M-h>', ':vertical resize +3<CR>', opts) -- shrink to the left
+vim.keymap.set('n', '<M-l>', ':vertical resize -3<CR>', opts) -- grow  to the right
 
 vim.g.copilot_no_tab_map = true
 vim.api.nvim_set_keymap("i", "<C-a>", "<Plug>(copilot-accept-word)", { noremap = false, silent = true })

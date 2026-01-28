@@ -10,45 +10,38 @@ return {
     "ray-x/web-tools.nvim",
   },
   
-  -- Yazi file manager integration
+  -- Oil.nvim file explorer
   {
-    "mikavilpas/yazi.nvim",
+    "stevearc/oil.nvim",
+    opts = {},
     dependencies = {
-      {
-        "folke/snacks.nvim",
-        config = function()
-          local ok, snacks = pcall(require, "snacks")
-          if ok then
-            snacks.setup({
-              config = {
-                priority = 1000,
-                lazy = false,
-                opts = {
-                  bigfile = { enabled = true },
-                  dashboard = { enabled = true },
-                  explorer = { enabled = true },
-                  indent = { enabled = true },
-                  input = { enabled = true },
-                  notifier = {
-                    enabled = true,
-                    timeout = 3000,
-                  },
-                  picker = { enabled = true },
-                  quickfile = { enabled = true },
-                  scope = { enabled = true },
-                  scroll = { enabled = true },
-                  statuscolumn = { enabled = true },
-                  words = { enabled = true },
-                },
-              },
-            })
-          end
-        end,
-      },
+      { "nvim-mini/mini.icons", opts = {} }
     },
-    config = function()
-      require("yazi").setup()
-    end,
+    lazy = false,
+  },
+  
+  -- Snacks.nvim - Collection of useful utilities
+  {
+    "folke/snacks.nvim",
+    priority = 1000,
+    lazy = false,
+    opts = {
+      bigfile = { enabled = true },
+      dashboard = { enabled = true },
+      indent = { enabled = true },
+      input = { enabled = true },
+      notifier = {
+        enabled = true,
+        timeout = 3000,
+      },
+      picker = { enabled = true },
+      quickfile = { enabled = true },
+      scope = { enabled = true },
+      scroll = { enabled = true },
+      statuscolumn = { enabled = true },
+      words = { enabled = true },
+      gitbrowse = { enabled = true },
+    },
   },
   
   -- Search and replace across project
