@@ -7,7 +7,7 @@ require'nvim-treesitter'.setup {
     auto_install = false,
     highlight = {
         enable = true,
-        disable = { "php" },  -- list of language that will be disabled
+        disable = {},  -- list of language that will be disabled
         -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
 
         -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
