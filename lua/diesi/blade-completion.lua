@@ -2,6 +2,7 @@
 -- This module provides Laravel-specific completions and variable awareness in Blade templates
 
 local M = {}
+local source_registered = false
 
 -- Common Laravel variables available in Blade templates
 local laravel_blade_globals = {
@@ -248,23 +249,38 @@ function M.setup()
       
       callback(items)
     end
-    
-    -- Register the source
-    cmp.register_source('blade', source)
-    
-    -- Update cmp configuration for blade filetype
-    cmp.setup.filetype('blade', {
-      sources = cmp.config.sources({
-        { name = 'nvim_lsp', priority = 1000 },
-        { name = 'luasnip', priority = 950 },
-        { name = 'blade', priority = 900 },
-        { name = 'buffer', priority = 500 },
-        { name = 'path', priority = 300 },
-      })
-    })
+
+    if not source_registered then
+      cmp.register_source('blade', source)
+      source_registered = true
+    end
   end
-  
-  vim.notify("Blade autocomplete enhanced", vim.log.levels.INFO)
+
+  M.configure_cmp_sources()
+end
+
+function M.configure_cmp_sources()
+  local ok_cmp, cmp = pcall(require, 'cmp')
+  if not ok_cmp then
+    return
+  end
+
+  local sources = {
+    { name = 'nvim_lsp', priority = 1000 },
+    { name = 'luasnip', priority = 950 },
+  }
+
+  if package.loaded['blade-nav'] or package.loaded['blade-nav.cmp'] then
+    table.insert(sources, { name = 'blade-nav', priority = 925 })
+  end
+
+  table.insert(sources, { name = 'blade', priority = 900 })
+  table.insert(sources, { name = 'buffer', priority = 500 })
+  table.insert(sources, { name = 'path', priority = 300 })
+
+  cmp.setup.filetype('blade', {
+    sources = cmp.config.sources(sources),
+  })
 end
 
 return M
