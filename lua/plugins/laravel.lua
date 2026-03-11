@@ -1,33 +1,12 @@
 return {
   {
-    "RicardoRamirezR/blade-nav.nvim",
-    commit = "742b083aa997ec7876a0891a356689d3d6a2d76b",
-    ft = { "blade", "php" },
-    cmd = { "BladeNavInstallArtisanCommand" },
-    dependencies = {
-      "hrsh7th/nvim-cmp",
-    },
-    init = function()
-      vim.g.loaded_blade_nav = true
-      vim.g.blade_nav = vim.g.blade_nav or {}
-    end,
-    opts = {
-      close_tag_on_complete = false,
-    },
-    config = function(_, opts)
-      require("blade-nav").setup(opts)
-      require("diesi.blade-completion").configure_cmp_sources()
-      require("diesi.blade-nav").setup()
-    end,
-  },
-  {
   "adalessa/laravel.nvim",
   dependencies = {
     "MunifTanjim/nui.nvim",
     "nvim-lua/plenary.nvim",
     "nvim-neotest/nvim-nio",
   },
-  ft = { "php", "blade" },
+  ft = { "php" },
   event = {
     "BufEnter composer.json",
   },

@@ -1,23 +1,26 @@
-require'nvim-treesitter'.setup {
-    -- A list of parser names, or "all" (the five listed parsers should always be installed)
-    ensure_installed = { "php", "html", "dockerfile", "gitignore", "json", "passwd", "po", "python", "regex", "scss", "tmux", "twig", "xml", "yaml", "javascript", "typoscript", "bash", "c_sharp", "cpp", "css", "csv", "c", "lua", "vim", "vimdoc", "query", "blade" },
+local ok, treesitter = pcall(require, "nvim-treesitter")
+if not ok then
+    return
+end
 
-    -- Automatically install missing parsers when entering buffer
-    -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-    auto_install = false,
-    highlight = {
-        enable = true,
-        disable = {},  -- list of language that will be disabled
-        -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
+treesitter.setup()
 
-        -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-        -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-        -- Using this option may slow down your editor, and you may see some duplicate highlights.
-        -- Instead of true it can also be a list of languages
-        additional_vim_regex_highlighting = false,
-    },
-    indent = {
-        enable = true,
-    }
-}
+local group = vim.api.nvim_create_augroup("diesi-treesitter", { clear = true })
 
+vim.api.nvim_create_autocmd("FileType", {
+    group = group,
+    callback = function(args)
+        local ok_start = pcall(vim.treesitter.start, args.buf)
+        if not ok_start then
+            return
+        end
+
+        vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+
+        local win = vim.fn.bufwinid(args.buf)
+        if win ~= -1 then
+            vim.wo[win].foldexpr = "v:lua.vim.treesitter.foldexpr()"
+            vim.wo[win].foldmethod = "expr"
+        end
+    end,
+})
