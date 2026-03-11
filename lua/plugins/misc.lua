@@ -13,7 +13,25 @@ return {
   -- Oil.nvim file explorer
   {
     "stevearc/oil.nvim",
-    opts = {},
+    opts = {
+      view_options = {
+        show_hidden = true,
+      },
+      keymaps = {
+        ["<C-f>"] = {
+          callback = function()
+            require("oil.fzf").fuzzy_filter()
+          end,
+          desc = "Fuzzy find files in current directory",
+        },
+        ["<C-g>"] = {
+          callback = function()
+            require("oil.fzf").grep_in_directory()
+          end,
+          desc = "Grep in current directory",
+        },
+      },
+    },
     dependencies = {
       { "nvim-mini/mini.icons", opts = {} }
     },
@@ -70,16 +88,5 @@ return {
     "elmar-hinz/vim.typoscript",
   },
   
-  -- Laravel helper utilities
-  {
-    "greggh/laravel-helper.nvim",
-    dependencies = {
-      "ColinKennedy/mega.cmdparse",
-      "ColinKennedy/mega.logging",
-      "MunifTanjim/nui.nvim",
-    },
-    config = function()
-      require("laravel-helper").setup()
-    end,
-  },
+  
 }

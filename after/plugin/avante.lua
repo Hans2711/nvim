@@ -8,7 +8,7 @@ avante.setup({
     providers = {
         openai = {
             endpoint = "https://api.openai.com/v1",
-            model = "gpt-4o-mini-2024-07-18",
+            model = "gpt-5.2",
             timeout = 30000,
             extra_request_body = {
                 temperature = 0,

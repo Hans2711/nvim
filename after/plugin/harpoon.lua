@@ -10,7 +10,7 @@ require("harpoon").setup({
     }
 })
 
-vim.keymap.set("n", "<leader>a", mark.add_file)
+vim.keymap.set("n", "<C-a>", mark.add_file)
 vim.keymap.set("n", "<C-b>", ui.toggle_quick_menu)
 
 vim.keymap.set("n", "<leader>1", function() ui.nav_file(1) end)

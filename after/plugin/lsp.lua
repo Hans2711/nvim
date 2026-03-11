@@ -19,13 +19,48 @@ setup_lsp('pyright')
 -- setup_lsp('tsserver')  -- commented out as using ts_ls instead
 setup_lsp('cssmodules_ls')
 setup_lsp('docker_compose_language_service')
-setup_lsp('html')
+-- HTML LSP with Blade support
+setup_lsp('html', {
+  filetypes = { 'html', 'blade' },
+})
 setup_lsp('jsonls')
-setup_lsp('tailwindcss')
 
--- PHP LSP (Intelephense)
+-- Tailwind CSS with Blade support
+setup_lsp('tailwindcss', {
+  filetypes = {
+    'html',
+    'css',
+    'blade',
+    'typescriptreact',
+    'javascriptreact',
+  },
+})
+
+-- PHP LSP (Intelephense) with Blade support
 -- setup_lsp('phpactor')  -- commented out as using intelephense instead
-setup_lsp('intelephense')
+setup_lsp('intelephense', {
+  filetypes = { 'php', 'blade' },
+  settings = {
+    intelephense = {
+      filetypes = { 'php', 'blade' },
+      files = {
+        associations = { '*.php', '*.blade.php' },
+        maxSize = 5000000,
+      },
+      -- Enable all features for better autocomplete
+      telemetry = {
+        enabled = false,
+      },
+      format = {
+        enable = true,
+      },
+    },
+  },
+  init_options = {
+    -- Provide global variables that Laravel makes available in Blade templates
+    globalStoragePath = vim.fn.stdpath('data') .. '/intelephense',
+  },
+})
 
 -- Emmet language server with custom filetypes
 setup_lsp('emmet_language_server', {
@@ -86,8 +121,5 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
     vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts)
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-    vim.keymap.set('n', '<space>f', function()
-      vim.lsp.buf.format { async = true }
-    end, opts)
   end,
 })

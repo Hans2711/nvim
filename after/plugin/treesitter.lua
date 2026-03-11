@@ -1,6 +1,6 @@
 require'nvim-treesitter'.setup {
     -- A list of parser names, or "all" (the five listed parsers should always be installed)
-    ensure_installed = { "dockerfile", "gitignore", "html", "json", "passwd", "po", "python", "regex", "scss", "tmux", "twig", "xml", "yaml", "javascript", "php", "typoscript", "bash", "c_sharp", "cpp", "css", "csv", "c", "lua", "vim", "vimdoc", "query", "blade" },
+    ensure_installed = { "php", "html", "dockerfile", "gitignore", "json", "passwd", "po", "python", "regex", "scss", "tmux", "twig", "xml", "yaml", "javascript", "typoscript", "bash", "c_sharp", "cpp", "css", "csv", "c", "lua", "vim", "vimdoc", "query", "blade" },
 
     -- Automatically install missing parsers when entering buffer
     -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
@@ -20,3 +20,4 @@ require'nvim-treesitter'.setup {
         enable = true,
     }
 }
+

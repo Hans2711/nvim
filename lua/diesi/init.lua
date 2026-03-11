@@ -3,7 +3,6 @@ require('diesi.clipboard')
 require('diesi.folds')
 require('diesi.typoscript')
 require('diesi.recent').setup()
-require('diesi.laravel')
 
 vim.opt.number = true
 vim.wo.relativenumber = true

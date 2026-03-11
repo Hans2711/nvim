@@ -5,6 +5,7 @@ local M = {}
 M.fuzzy_filter = function()
   local oil = require("oil")
   local fzf = require("fzf-lua")
+  local fzf_opts = require("diesi.fzf")
   
   -- Get the current directory from oil
   local current_dir = oil.get_current_dir()
@@ -18,7 +19,7 @@ M.fuzzy_filter = function()
   current_dir = vim.fn.fnamemodify(current_dir, ":p")
   
   -- Open fzf-lua to find files in the current directory
-  fzf.files({
+  fzf.files(fzf_opts.with_quickfix({
     cwd = current_dir,
     prompt = "Files> ",
     winopts = {
@@ -27,13 +28,14 @@ M.fuzzy_filter = function()
     },
     -- Let fzf-lua handle opening the file with default action
     -- This uses fzf-lua's built-in file opening which works correctly
-  })
+  }))
 end
 
 -- Function to grep in current oil directory
 M.grep_in_directory = function()
   local oil = require("oil")
   local fzf = require("fzf-lua")
+  local fzf_opts = require("diesi.fzf")
   
   -- Get the current directory from oil
   local current_dir = oil.get_current_dir()
@@ -47,14 +49,14 @@ M.grep_in_directory = function()
   current_dir = vim.fn.fnamemodify(current_dir, ":p")
   
   -- Open fzf-lua live_grep in the current directory
-  fzf.live_grep({
+  fzf.live_grep(fzf_opts.with_quickfix({
     cwd = current_dir,
     prompt = "Grep> ",
     winopts = {
       title = " " .. vim.fn.fnamemodify(current_dir, ":~") .. " ",
       title_pos = "center",
     },
-  })
+  }))
 end
 
 return M

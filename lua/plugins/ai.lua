@@ -15,8 +15,5 @@ return {
       "ibhagwan/fzf-lua",
       "MeanderingProgrammer/render-markdown.nvim",
     },
-    config = function()
-      require("avante.config")
-    end,
   },
 }

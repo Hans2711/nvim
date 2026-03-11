@@ -1,5 +1,8 @@
 vim.g.mapleader = " "
 
+-- Always open Oil with '-'
+vim.keymap.set("n", "-", "<cmd>Oil<CR>", { noremap = true, silent = true })
+
 -- Move lines up or down
 vim.keymap.set("n", "<A-j>", ":m .+1<CR>==") -- move line up(n)
 vim.keymap.set("n", "<A-k>", ":m .-2<CR>==") -- move line down(n)
@@ -31,6 +34,39 @@ vim.keymap.set({'n', 'x', 'o'}, 'S', '<cmd>HopLine<cr>', { noremap = true, silen
 vim.keymap.set({'n', 'x', 'o'}, '<leader>gB', ':lua Snacks.gitbrowse()<cr>', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>cH', ':FzfLua command_history<cr>', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>b', ':FzfLua buffers<cr>', { noremap = true, silent = true })
+
+-- File finding / grep (fzf-lua)
+-- Search from project root (git-aware)
+vim.keymap.set('n', '<leader>ff', function()
+  local fzf = require('fzf-lua')
+  local fzf_opts = require('diesi.fzf')
+  -- Resolve project root (git-aware, with safe fallback)
+  local git_dir = vim.fs.find('.git', { upward = true })[1]
+  local root = git_dir and vim.fs.dirname(git_dir) or vim.loop.cwd()
+  fzf.files(fzf_opts.with_quickfix({ cwd = root }))
+end, { noremap = true, silent = true, desc = 'Find files (project root)' })
+
+vim.keymap.set('n', '<leader>fg', function()
+  local fzf = require('fzf-lua')
+  local fzf_opts = require('diesi.fzf')
+  -- Resolve project root (git-aware, with safe fallback)
+  local git_dir = vim.fs.find('.git', { upward = true })[1]
+  local root = git_dir and vim.fs.dirname(git_dir) or vim.loop.cwd()
+  fzf.live_grep(fzf_opts.with_quickfix({ cwd = root }))
+end, { noremap = true, silent = true, desc = 'Grep (project root)' })
+
+-- Search from current working directory (where nvim was opened)
+vim.keymap.set('n', '<leader>cff', function()
+  local fzf = require('fzf-lua')
+  local fzf_opts = require('diesi.fzf')
+  fzf.files(fzf_opts.with_quickfix({ cwd = vim.loop.cwd() }))
+end, { noremap = true, silent = true, desc = 'Find files (cwd)' })
+
+vim.keymap.set('n', '<leader>cfg', function()
+  local fzf = require('fzf-lua')
+  local fzf_opts = require('diesi.fzf')
+  fzf.live_grep(fzf_opts.with_quickfix({ cwd = vim.loop.cwd() }))
+end, { noremap = true, silent = true, desc = 'Grep (cwd)' })
 
 vim.keymap.set('n', '<leader>fr', function()
     require('diesi.recent').open()
