@@ -22,22 +22,6 @@ return {
     { "<leader>lo", function() Laravel.pickers.resources() end,            desc = "Laravel: Open Resources Picker" },
     { "<leader>lp", function() Laravel.commands.run("command_center") end, desc = "Laravel: Open Command Center" },
     { "<leader>lu", function() Laravel.commands.run("hub") end,            desc = "Laravel Artisan hub" },
-    {
-      "gf",
-      function()
-        local ok, res = pcall(function()
-          if Laravel.app("gf").cursorOnResource() then
-            return "<cmd>lua Laravel.commands.run('gf')<cr>"
-          end
-        end)
-        if not ok or not res then
-          return "gf"
-        end
-        return res
-      end,
-      expr = true,
-      noremap = true,
-    },
   },
   opts = {
     features = {
