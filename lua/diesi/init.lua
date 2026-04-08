@@ -1,6 +1,7 @@
 require('diesi.remap')
 require('diesi.clipboard')
 require('diesi.folds')
+require('diesi.blade')
 require('diesi.typoscript')
 require('diesi.recent').setup()
 require('diesi.commands')

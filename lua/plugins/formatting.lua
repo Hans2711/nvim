@@ -15,7 +15,15 @@ return {
 				json = { "prettier" },
 				yaml = { "prettier" },
 				markdown = { "prettier" },
-                php = { { "pint", "php_cs_fixer" } },
+				php = { "pint", "php_cs_fixer", stop_after_first = true },
+				blade = { "blade-formatter" },
+			},
+			formatters = {
+				["blade-formatter"] = {
+					command = "blade-formatter",
+					args = { "--stdin" },
+					stdin = true,
+				},
 			},
 			format_on_save = function(bufnr)
                 return nil

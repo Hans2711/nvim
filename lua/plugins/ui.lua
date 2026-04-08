@@ -25,7 +25,9 @@ return {
   {
     "MeanderingProgrammer/render-markdown.nvim",
   },
-  
+  {
+    "lewis6991/gitsigns.nvim",
+  },
   -- Diagnostics list
   {
     "folke/trouble.nvim",

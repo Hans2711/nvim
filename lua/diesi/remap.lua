@@ -4,10 +4,10 @@ vim.g.mapleader = " "
 vim.keymap.set("n", "-", "<cmd>Oil<CR>", { noremap = true, silent = true })
 
 -- Move lines up or down
-vim.keymap.set("n", "<A-j>", ":m .+1<CR>==") -- move line up(n)
-vim.keymap.set("n", "<A-k>", ":m .-2<CR>==") -- move line down(n)
-vim.keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv") -- move line up(v)
-vim.keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv") -- move line down(v)
+-- vim.keymap.set("n", "<A-j>", ":m .+1<CR>==") -- move line up(n)
+-- vim.keymap.set("n", "<A-k>", ":m .-2<CR>==") -- move line down(n)
+-- vim.keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv") -- move line up(v)
+-- vim.keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv") -- move line down(v)
 
 -- quit
 vim.keymap.set("n", "<C-q>", ":q<CR>")
@@ -110,3 +110,15 @@ end, { noremap = true, silent = true, desc = 'Yank (copy) buffer path' })
 -- <leader>xd - Toggle LSP definitions/references/implementations
 -- <leader>xL - Toggle location list
 -- <leader>xq - Toggle quickfix list
+--
+-- movement
+vim.keymap.set({ 'n', 'v' }, '<A-k>', '<cmd>Treewalker Up<cr>', { silent = true, noremap = true })
+vim.keymap.set({ 'n', 'v' }, '<A-j>', '<cmd>Treewalker Down<cr>', { silent = true, noremap = true })
+vim.keymap.set({ 'n', 'v' }, '<A-h>', '<cmd>Treewalker Left<cr>', { silent = true, noremap = true })
+vim.keymap.set({ 'n', 'v' }, '<A-l>', '<cmd>Treewalker Right<cr>', { silent = true, noremap = true })
+
+-- swapping
+vim.keymap.set('n', '<A-S-k>', '<cmd>Treewalker SwapUp<cr>', { silent = true, noremap = true })
+vim.keymap.set('n', '<A-S-j>', '<cmd>Treewalker SwapDown<cr>', { silent = true, noremap = true })
+vim.keymap.set('n', '<A-S-h>', '<cmd>Treewalker SwapLeft<cr>', { silent = true, noremap = true })
+vim.keymap.set('n', '<A-S-l>', '<cmd>Treewalker SwapRight<cr>', { silent = true, noremap = true })
